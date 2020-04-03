@@ -1,5 +1,6 @@
 package student_player;
 
+import Saboteur.SaboteurBoardState;
 import Saboteur.cardClasses.SaboteurTile;
 
 public class MyTools {
@@ -9,8 +10,7 @@ public class MyTools {
     /* 
      * the heuristic function for tiles
      * returns the number of moves to get to the nugget given a tile, its position, 
-     * and our estimate for where the nugget is
-     * 
+     * and our estimate of where the nugget is
      */
     public int movesToGoal(SaboteurTile tile, int[] pos, int[] nugget) {
     		int nuggetYPos = nugget[0];
@@ -41,7 +41,46 @@ public class MyTools {
     				return yDistance + xDistance - 1;
     			}
     		}
-    		
+    		// TODO 
+    		// add returns for discontinuous tiles (1, 2, 2f, 3, 3f, 4, 4f, 11, 11f, 12, 12f, 13, 14, 14f, 15)
     		return 100;
+    }
+    
+    public int[] nuggetAverage(SaboteurBoardState boardState) {
+    		SaboteurTile[][] tileBoard = boardState.getHiddenBoard();
+    		String tile1 = tileBoard[12][3].getIdx();
+    		String tile2 = tileBoard[12][5].getIdx();
+    		String tile3 = tileBoard[12][3].getIdx();
+    		
+    		if (tile1.equals("nugget")) {
+    			return new int[] {12,3};
+    		} else if (tile2.equals("nugget")) {
+    			return new int[] {12,5};
+    		} else if (tile3.equals("nugget")) {
+    			return new int[] {12,7};
+    		} else if (tile1.equals("hidden1")) {
+    			if (tile2.equals("hidden2")) {
+    				return new int[] {12,7};
+    			} else if (tile3.equals("hidden2")) {
+    				return new int[] {12,5};
+    			} else {
+    				return new int[] {12,6};
+    			}
+    		} else if (tile1.equals("hidden2")) {
+    			if (tile2.equals("hidden1")) {
+    				return new int[] {12,7};
+    			} else if (tile3.equals("hidden1")) {
+    				return new int[] {12,5};
+    			} else {
+    				return new int[] {12,6};
+    			}
+    		} else if ((tile2.equals("hidden1") || tile2.equals("hidden2")) && !tile3.equals("8")) {
+    			return new int[] {12,3};
+    		} else if (tile3.equals("hidden1") || tile3.equals("hidden2")) {
+    			return new int[] {12,4};
+    		} else {
+    			return new int[]{12,5};
+    		}
+    		
     }
 }
