@@ -49,7 +49,7 @@ public class MyTools {
      * returns the x,y - coordinate of where we think the nugget is based on what hidden objects we have revealed
      * if nugget is known, returns location of the nugget
      * if hidden1 or hidden2 known, returns average location of the other two hidden objectives
-     * if hidden1 and hidden2 known, returns locations of the other hiddne objective
+     * if hidden1 and hidden2 known, returns locations of the other hidden objective
      */
     public int[] nuggetAverage(SaboteurBoardState boardState) {
     		SaboteurTile[][] tileBoard = boardState.getHiddenBoard();
