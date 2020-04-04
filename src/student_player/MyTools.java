@@ -11,7 +11,7 @@ public class MyTools {
      * the heuristic function for tiles
      * returns the number of moves to get to the nugget given a tile, its position, and our estimate of where the nugget is
      */
-    public int movesToGoal(SaboteurTile tile, int[] pos, int[] nugget) {
+    public static int movesToGoal(SaboteurTile tile, int[] pos, int[] nugget) {
     		int nuggetYPos = nugget[0];
     		int nuggetXPos = nugget[1];
     		int tileYPos = pos[0];
@@ -51,7 +51,7 @@ public class MyTools {
      * if hidden1 or hidden2 known, returns average location of the other two hidden objectives
      * if hidden1 and hidden2 known, returns locations of the other hidden objective
      */
-    public int[] nuggetAverage(SaboteurBoardState boardState) {
+    public static int[] nuggetAverage(SaboteurBoardState boardState) {
     		SaboteurTile[][] tileBoard = boardState.getHiddenBoard();
     		String tile1 = tileBoard[12][3].getIdx();
     		String tile2 = tileBoard[12][5].getIdx();
