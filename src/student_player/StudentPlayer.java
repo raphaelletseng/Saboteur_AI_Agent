@@ -46,7 +46,6 @@ public class StudentPlayer extends SaboteurPlayer {
         SaboteurCard bestCard = cards.get(0);
         for(int i=0; i<cards.size(); i++) {
         		if (cards.get(i) instanceof SaboteurTile) {
-        			// could potentially rewrite possiblePositions to only look for positions that are below the entrance
         			ArrayList<int[]> positions = boardState.possiblePositions((SaboteurTile)cards.get(i));
         			int heuristic = 100;
         			int[] tempCoords = new int[2];

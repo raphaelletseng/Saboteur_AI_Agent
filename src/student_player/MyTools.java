@@ -39,10 +39,9 @@ public class MyTools {
     			} else {
     				return yDistance + xDistance - 1;
     			}
+    		} else {
+    			return 100 - (yDistance + xDistance);
     		}
-    		// TODO 
-    		// add returns for discontinuous tiles (1, 2, 2f, 3, 3f, 4, 4f, 11, 11f, 12, 12f, 13, 14, 14f, 15)
-    		return 100;
     }
     
     /*
