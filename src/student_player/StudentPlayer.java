@@ -4,6 +4,7 @@ import boardgame.Move;
 
 import Saboteur.SaboteurPlayer;
 import Saboteur.cardClasses.SaboteurCard;
+import Saboteur.cardClasses.SaboteurDrop;
 import Saboteur.cardClasses.SaboteurTile;
 
 import java.util.ArrayList;
@@ -41,16 +42,21 @@ public class StudentPlayer extends SaboteurPlayer {
         // after pruning
         // find best move with tile cards
         int[] nugget = MyTools.nuggetAverage(boardState);
+        int[] nuggetPos = new int[2];
+        nuggetPos[0] = nugget[0];
+        nuggetPos[1] = nugget[1];
+        int knowNugget = nugget[2];
+        
         int bestHeuristic = 100;
         int[] bestCoords = new int[2];
-        SaboteurCard bestCard = cards.get(0);
+        SaboteurCard bestCard = null;
         for(int i=0; i<cards.size(); i++) {
         		if (cards.get(i) instanceof SaboteurTile) {
         			ArrayList<int[]> positions = boardState.possiblePositions((SaboteurTile)cards.get(i));
         			int heuristic = 100;
         			int[] tempCoords = new int[2];
         			for(int j=0; j<positions.size(); j++) {
-        				int temp = MyTools.movesToGoal((SaboteurTile)cards.get(i), positions.get(j), nugget);
+        				int temp = MyTools.movesToGoal((SaboteurTile)cards.get(i), positions.get(j), nuggetPos);
         				if (temp<heuristic) {
         					heuristic = temp;
         					tempCoords[0] = positions.get(j)[0];
@@ -65,7 +71,14 @@ public class StudentPlayer extends SaboteurPlayer {
         			}
         		}
         }
+        
         // idk if playerId is right
+        // drop if could not find card
+        if (bestCard == null) {
+        		Move move = new SaboteurMove((new SaboteurDrop()), MyTools.dropCard(cards, knowNugget), 0, 1);
+        		return move;
+        }
+        
         Move move = new SaboteurMove(bestCard, bestCoords[1], bestCoords[0], 1);
         return move; 
 

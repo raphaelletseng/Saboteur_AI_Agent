@@ -1,6 +1,11 @@
 package student_player;
 
+import java.util.ArrayList;
+
 import Saboteur.SaboteurBoardState;
+import Saboteur.cardClasses.SaboteurCard;
+import Saboteur.cardClasses.SaboteurDestroy;
+import Saboteur.cardClasses.SaboteurMap;
 import Saboteur.cardClasses.SaboteurTile;
 
 public class MyTools {
@@ -49,6 +54,7 @@ public class MyTools {
      * if nugget is known, returns location of the nugget
      * if hidden1 or hidden2 known, returns average location of the other two hidden objectives
      * if hidden1 and hidden2 known, returns locations of the other hidden objective
+     * third element of array is boolean indicating whether we know where the nugget is
      */
     public static int[] nuggetAverage(SaboteurBoardState boardState) {
     		SaboteurTile[][] tileBoard = boardState.getHiddenBoard();
@@ -57,34 +63,73 @@ public class MyTools {
     		String tile3 = tileBoard[12][3].getIdx();
     		
     		if (tile1.equals("nugget")) {
-    			return new int[] {12,3};
+    			return new int[] {12,3,1};
     		} else if (tile2.equals("nugget")) {
-    			return new int[] {12,5};
+    			return new int[] {12,5,1};
     		} else if (tile3.equals("nugget")) {
-    			return new int[] {12,7};
+    			return new int[] {12,7,1};
     		} else if (tile1.equals("hidden1")) {
     			if (tile2.equals("hidden2")) {
-    				return new int[] {12,7};
+    				return new int[] {12,7,1};
     			} else if (tile3.equals("hidden2")) {
-    				return new int[] {12,5};
+    				return new int[] {12,5,1};
     			} else {
-    				return new int[] {12,6};
+    				return new int[] {12,6,0};
     			}
     		} else if (tile1.equals("hidden2")) {
     			if (tile2.equals("hidden1")) {
-    				return new int[] {12,7};
+    				return new int[] {12,7,1};
     			} else if (tile3.equals("hidden1")) {
-    				return new int[] {12,5};
+    				return new int[] {12,5,1};
     			} else {
-    				return new int[] {12,6};
+    				return new int[] {12,6,0};
     			}
     		} else if ((tile2.equals("hidden1") || tile2.equals("hidden2")) && !tile3.equals("8")) {
-    			return new int[] {12,3};
+    			return new int[] {12,3,1};
     		} else if (tile3.equals("hidden1") || tile3.equals("hidden2")) {
-    			return new int[] {12,4};
+    			return new int[] {12,4,0};
     		} else {
-    			return new int[]{12,5};
+    			return new int[] {12,5,0};
     		}
     		
+    }
+    
+    /*
+     * decides which card in our hand to drop
+     * takes hand as input
+     * returns index of the card to drop
+     * drop priority: (destroy, map cards when we know where the nugget is), "unhelpful" tiles, (helpful tiles, malus/bonus, map cards)
+     * TODO: decide priority of (helpful tiles, malus/bonus, map cards) and adjust code accordingly
+     */
+    public static int dropCard(ArrayList<SaboteurCard> cards, int knowNugget) {
+    		int priority = 10;
+    		int index = 0;
+    		for(int i=0; i<cards.size(); i++) {
+    			SaboteurCard card = cards.get(i);
+    			if ((card instanceof SaboteurDestroy) || (card instanceof SaboteurMap && knowNugget == 1)) {
+    				return i;
+    			} else if (card instanceof SaboteurTile) {
+    				String cardIdx = ((SaboteurTile)card).getIdx();
+    				if (cardIdx.equals("1") || cardIdx.equals("2") || cardIdx.equals("2f") || cardIdx.equals("3") || cardIdx.equals("3f") 
+    						|| cardIdx.equals("4") || cardIdx.equals("4f") || cardIdx.equals("11") || cardIdx.equals("11f") || cardIdx.equals("12") 
+    						|| cardIdx.equals("12f") || cardIdx.equals("13") || cardIdx.equals("14") || cardIdx.equals("14f") || cardIdx.equals("15")) {
+    					if (priority > 2) {
+    						index = i;
+    						priority = 2;
+    					} 
+    				} else {
+    					if (priority > 3) {
+    						index = i;
+    						priority = 3;
+    					}
+    				}
+    			} else {
+    				if (priority > 3) {
+    					index = i;
+    					priority = 3;
+    				}
+    			}
+    		}
+    		return index;
     }
 }
