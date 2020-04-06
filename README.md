@@ -14,3 +14,4 @@ The best coders are happy coders!
 - Tile card heuristic: number of moves up/down and left/right to get to the nugget 
 - if we don't know where the nugget is, then we will use the average based on what we know about the hidden objectives to calculate the heuristic
 - Destroy cards we will avoid
+- in the case where we cannot prune any branches and cannot find anywhere to play a tile card, we will drop a card 
