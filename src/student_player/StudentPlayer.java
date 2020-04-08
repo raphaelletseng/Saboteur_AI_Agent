@@ -47,27 +47,52 @@ public class StudentPlayer extends SaboteurPlayer {
         nuggetPos[1] = nugget[1];
         int knowNugget = nugget[2];
         
-        int bestHeuristic = 100;
+        int bestHeuristic = 100; // used to find best position among all tiles in our hand
         int[] bestCoords = new int[2];
         SaboteurCard bestCard = null;
+        
         for(int i=0; i<cards.size(); i++) {
         		if (cards.get(i) instanceof SaboteurTile) {
-        			ArrayList<int[]> positions = boardState.possiblePositions((SaboteurTile)cards.get(i));
-        			int heuristic = 100;
-        			int[] tempCoords = new int[2];
+        			SaboteurTile tile = (SaboteurTile)cards.get(i);
+        			ArrayList<int[]> positions = boardState.possiblePositions(tile);
+        			int heuristic = 100; // used to find best position for this tile
+        			int[] tempCoords = new int[2]; 
+        			boolean flipped = false;
+        			
+        			// get moves to goal for that tile from every position
+        			// temp, tempCoords holds the properties of the best move among positions
         			for(int j=0; j<positions.size(); j++) {
-        				int temp = MyTools.movesToGoal((SaboteurTile)cards.get(i), positions.get(j), nuggetPos);
+        				int temp = MyTools.movesToGoal(tile, positions.get(j), nuggetPos);
         				if (temp<heuristic) {
         					heuristic = temp;
         					tempCoords[0] = positions.get(j)[0];
         					tempCoords[1] = positions.get(j)[1];
         				}
         			}
+        			
+        			// same thing for flipped version of tile
+        			if (SaboteurTile.canBeFlipped(tile.getIdx())) {
+        				for(int j=0; j<positions.size(); j++) {
+            				int temp = MyTools.movesToGoal(tile.getFlipped(), positions.get(j), nuggetPos);
+            				if (temp<heuristic) {
+            					flipped = true;
+            					heuristic = temp;
+            					tempCoords[0] = positions.get(j)[0];
+            					tempCoords[1] = positions.get(j)[1];
+            				}
+            			}
+        			}
+        			
+        			// update best move properties
         			if (heuristic<bestHeuristic) {
         				bestHeuristic = heuristic;
         				bestCoords[0] = tempCoords[0];
         				bestCoords[1] = tempCoords[1];
-        				bestCard = cards.get(i);
+        				if(flipped) {
+        					bestCard = tile.getFlipped();
+        				} else {
+        					bestCard = tile;
+        				}
         			}
         		}
         }
