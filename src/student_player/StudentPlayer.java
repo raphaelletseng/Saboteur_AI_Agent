@@ -46,9 +46,10 @@ public class StudentPlayer extends SaboteurPlayer {
         nuggetPos[0] = nugget[0];
         nuggetPos[1] = nugget[1];
         int knowNugget = nugget[2];
+        System.out.println("nugget average: (y,x) = ("+nuggetPos[0]+","+nuggetPos[1]+")");
         
         int bestHeuristic = 100; // used to find best position among all tiles in our hand
-        int[] bestCoords = new int[2];
+        int[] bestCoords = new int[2]; // (y,x)
         SaboteurCard bestCard = null;
         
         for(int i=0; i<cards.size(); i++) {
@@ -62,11 +63,16 @@ public class StudentPlayer extends SaboteurPlayer {
         			// get moves to goal for that tile from every position
         			// temp, tempCoords holds the properties of the best move among positions
         			for(int j=0; j<positions.size(); j++) {
+        				//System.out.println("j = "+j);
         				int temp = MyTools.movesToGoal(tile, positions.get(j), nuggetPos);
-        				if (temp<heuristic) {
+        				if (temp<heuristic && boardState.verifyLegit(tile.getPath(), positions.get(j))) {
         					heuristic = temp;
-        					tempCoords[0] = positions.get(j)[0];
-        					tempCoords[1] = positions.get(j)[1];
+        					tempCoords[0] = positions.get(j)[0]; // y 
+        					tempCoords[1] = positions.get(j)[1]; // x
+        					
+        					//System.out.println("temp = "+temp);
+        					//System.out.println("tile = "+tile.getIdx());
+        					//System.out.println("position: "+tempCoords[0]+","+tempCoords[1]);
         				}
         			}
         			
@@ -77,8 +83,8 @@ public class StudentPlayer extends SaboteurPlayer {
             				if (temp<heuristic) {
             					flipped = true;
             					heuristic = temp;
-            					tempCoords[0] = positions.get(j)[0];
-            					tempCoords[1] = positions.get(j)[1];
+            					tempCoords[0] = positions.get(j)[0]; // y
+            					tempCoords[1] = positions.get(j)[1]; // x
             				}
             			}
         			}
@@ -86,8 +92,8 @@ public class StudentPlayer extends SaboteurPlayer {
         			// update best move properties
         			if (heuristic<bestHeuristic) {
         				bestHeuristic = heuristic;
-        				bestCoords[0] = tempCoords[0];
-        				bestCoords[1] = tempCoords[1];
+        				bestCoords[0] = tempCoords[0]; // y
+        				bestCoords[1] = tempCoords[1]; // x
         				if(flipped) {
         					bestCard = tile.getFlipped();
         				} else {
@@ -100,12 +106,22 @@ public class StudentPlayer extends SaboteurPlayer {
         // idk if playerId is right
         // drop if could not find card
         if (bestCard == null) {
-        		Move move = new SaboteurMove((new SaboteurDrop()), MyTools.dropCard(cards, knowNugget), 0, 1);
+        		Move move = new SaboteurMove((new SaboteurDrop()), MyTools.dropCard(cards, knowNugget), 0, boardState.getTurnPlayer());
         		return move;
+        } else if (bestCard instanceof SaboteurTile) {
+        		System.out.println("tile: "+((SaboteurTile)bestCard).getIdx());
+        		System.out.println("position: ("+bestCoords[0]+","+bestCoords[1]+")");
         }
         
-        Move move = new SaboteurMove(bestCard, bestCoords[1], bestCoords[0], 1);
-        return move; 
+        Move move = new SaboteurMove(bestCard, bestCoords[1], bestCoords[0], boardState.getTurnPlayer());
+        System.out.println(move.toPrettyString());
+        if (boardState.isLegal((SaboteurMove)move)) {
+        		return move; 
+        } else {
+	        	move = new SaboteurMove((new SaboteurDrop()), MyTools.dropCard(cards, knowNugget), 0, boardState.getTurnPlayer());
+	    		return move;
+        }
+        
 
         // Return your move to be processed by the server.
         //return myMove;

@@ -370,14 +370,18 @@ public class SaboteurBoardState extends BoardState {
     }
 
     public boolean verifyLegit(int[][] path,int[] pos){
-        // Given a tile's path, and a position to put this path, verify that it respects the rule of positionning;
+    	
+        // Given a tile's path, and a position to put this path, verify that it respects the rule of positioning;
         if (!(0 <= pos[0] && pos[0] < BOARD_SIZE && 0 <= pos[1] && pos[1] < BOARD_SIZE)) {
             return false;
         }
-        if(board[pos[0]][pos[1]] != null) return false;
+        if(board[pos[0]][pos[1]] != null) {
+        		System.out.println("position not empty");
+        		return false;
+        }
 
-        //the following integer are used to make sure that at least one path exists between the possible new tile to be added and existing tiles.
-        // There are 2 cases:  a tile can't be placed near an hidden objective and a tile can't be connected only by a wall to another tile.
+        // the following integer are used to make sure that at least one path exists between the possible new tile to be added and existing tiles.
+        // There are 2 cases: a tile can't be placed near an hidden objective and a tile can't be connected only by a wall to another tile.
         int requiredEmptyAround=4;
         int numberOfEmptyAround=0;
 
@@ -396,6 +400,7 @@ public class SaboteurBoardState extends BoardState {
                 int[][] neighborPath = neighborCard.getPath();
                 if (path[0][0] != neighborPath[2][0] || path[0][1] != neighborPath[2][1] || path[0][2] != neighborPath[2][2] ) return false;
                 else if(path[0][0] == 0 && path[0][1]== 0 && path[0][2] ==0 ) numberOfEmptyAround +=1;
+                else System.out.println("tile matches tunnel on left side");
             }
         }
         else numberOfEmptyAround+=1;
@@ -409,6 +414,7 @@ public class SaboteurBoardState extends BoardState {
                 int[][] neighborPath = neighborCard.getPath();
                 if (path[2][0] != neighborPath[0][0] || path[2][1] != neighborPath[0][1] || path[2][2] != neighborPath[0][2]) return false;
                 else if(path[2][0] == 0 && path[2][1]== 0 && path[2][2] ==0 ) numberOfEmptyAround +=1;
+                else System.out.println("tile matches tunnel on right side");
             }
         }
         else numberOfEmptyAround+=1;
@@ -416,7 +422,10 @@ public class SaboteurBoardState extends BoardState {
         //verify upper side
         if(pos[0]>0) {
             SaboteurTile neighborCard = this.board[pos[0]-1][pos[1]];
-            if (neighborCard == null) numberOfEmptyAround += 1;
+            if (neighborCard == null) {
+            		numberOfEmptyAround += 1;
+            		System.out.println("upper card empty");
+            }
             else if(objHiddenList.contains(neighborCard)) requiredEmptyAround -= 1;
             else {
                 int[][] neighborPath = neighborCard.getPath();
@@ -424,6 +433,7 @@ public class SaboteurBoardState extends BoardState {
                 int[] np={neighborPath[0][0],neighborPath[1][0],neighborPath[2][0]};
                 if (p[0] != np[0] || p[1] != np[1] || p[2] != np[2]) return false;
                 else if(p[0] == 0 && p[1]== 0 && p[2] ==0 ) numberOfEmptyAround +=1;
+                else System.out.println("tile matches tunnel on upper side");
             }
         }
         else numberOfEmptyAround+=1;
@@ -439,10 +449,11 @@ public class SaboteurBoardState extends BoardState {
                 int[] np={neighborPath[0][2],neighborPath[1][2],neighborPath[2][2]};
                 if (p[0] != np[0] || p[1] != np[1] || p[2] != np[2]) return false;
                 else if(p[0] == 0 && p[1]== 0 && p[2] ==0 ) numberOfEmptyAround +=1; //we are touching by a wall
+                else System.out.println("tile matches tunnel on bottom side");
             }
         }
         else numberOfEmptyAround+=1;
-
+        System.out.println("numberOfEmptyAround = "+numberOfEmptyAround);
         if(numberOfEmptyAround==requiredEmptyAround)  return false;
 
         return true;
@@ -539,6 +550,9 @@ public class SaboteurBoardState extends BoardState {
         int[] pos = m.getPosPlayed();
         int currentPlayer = m.getPlayerID();
         if (currentPlayer != turnPlayer) return false;
+        if(turnPlayer == 0) {
+        		System.out.println("Student player turn");
+        }
 
         ArrayList<SaboteurCard> hand;
         boolean isBlocked;
@@ -559,9 +573,11 @@ public class SaboteurBoardState extends BoardState {
         for(SaboteurCard card : hand){
             if (card instanceof SaboteurTile && testCard instanceof SaboteurTile && !isBlocked) {
                 if(((SaboteurTile) card).getIdx().equals(((SaboteurTile) testCard).getIdx())){
+                		System.out.println("reg: "+verifyLegit(((SaboteurTile) card).getPath(),pos));
                     return verifyLegit(((SaboteurTile) card).getPath(),pos);
                 }
                 else if(((SaboteurTile) card).getFlipped().getIdx().equals(((SaboteurTile) testCard).getIdx())){
+                		System.out.println("flipped: "+verifyLegit(((SaboteurTile) card).getFlipped().getPath(),pos));
                     return verifyLegit(((SaboteurTile) card).getFlipped().getPath(),pos);
                 }
             }

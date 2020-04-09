@@ -91,7 +91,6 @@ public class MyTools {
     		} else {
     			return new int[] {12,5,0};
     		}
-    		
     }
     
     /*
