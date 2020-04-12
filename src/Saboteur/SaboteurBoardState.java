@@ -431,7 +431,9 @@ public class SaboteurBoardState extends BoardState {
                 int[][] neighborPath = neighborCard.getPath();
                 int[] p={path[0][2],path[1][2],path[2][2]};
                 int[] np={neighborPath[0][0],neighborPath[1][0],neighborPath[2][0]};
-                if (p[0] != np[0] || p[1] != np[1] || p[2] != np[2]) return false;
+                if (p[0] != np[0] || p[1] != np[1] || p[2] != np[2]) { 
+                		return false;
+                }
                 else if(p[0] == 0 && p[1]== 0 && p[2] ==0 ) numberOfEmptyAround +=1;
             }
         }
@@ -453,6 +455,7 @@ public class SaboteurBoardState extends BoardState {
             }
         }
         else numberOfEmptyAround+=1;
+        
         if(numberOfEmptyAround==requiredEmptyAround)  return false;
 
         return true;
