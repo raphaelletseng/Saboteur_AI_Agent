@@ -65,19 +65,33 @@ public class StudentPlayer extends SaboteurPlayer {
         					bestCoords[1] = positions.get(j)[1];
         				}
         			}
-        		// card heuristic depends on if we know where the nugget is and if we have a malus played against us
+        			if (SaboteurTile.canBeFlipped(((SaboteurTile)tempCard).getIdx())) {
+        				for(int j=0; j<positions.size(); j++) {
+            				temp = MyTools.movesToGoal(((SaboteurTile)tempCard).getFlipped(), positions.get(j), nuggetPos);
+            				if (temp < bestHeuristic) {
+            					bestHeuristic = temp;
+            					bestCard = ((SaboteurTile)tempCard).getFlipped();
+            					bestCoords[0] = positions.get(j)[0];
+            					bestCoords[1] = positions.get(j)[1];
+            				}
+            			}
+        			}
+        		// card heuristic depends on if we know where the nugget is 
+        		// and how many malus cards we have played against us
         		} else {
         			temp = MyTools.cardHeuristic(tempCard, knowNugget, nbMalus);
         			if (temp < bestHeuristic) {
         				bestHeuristic = temp;
         				bestCard = tempCard;
-        				if (tempCard instanceof SaboteurMap) {
+        				if (tempCard instanceof SaboteurMap) { 
+        					// this is only worth playing if knowNugget = 0
+        					// we will guess the outside hidden positions first
         					bestCoords[0] = nuggetPos[0];
         					if (nuggetPos[1] == 5) {
         						bestCoords[1] = 5;
         					} else if (nuggetPos[1] == 4) {
         						bestCoords[1] = 3;
-        					} else {
+        					} else { // nuggetPosX = 6
         						bestCoords[1] = 7;
         					}
         				} else { // SaboteurMalus, SaboteurBonus, SaboteurDestroy
@@ -88,6 +102,26 @@ public class StudentPlayer extends SaboteurPlayer {
         		}
         }
         
+        Move move;
+        // have to drop a card if could not find a move
+        if (bestCard == null) {
+        		move = new SaboteurMove((new SaboteurDrop()), MyTools.dropCard(cards, knowNugget), 0, boardState.getTurnPlayer());
+        		return move;
+        } else {
+        		System.out.println("tile: "+bestCard.getName());
+        		System.out.println("position: ("+bestCoords[0]+","+bestCoords[1]+")");
+        }
+        
+        move = new SaboteurMove(bestCard, bestCoords[1], bestCoords[0], boardState.getTurnPlayer());
+        System.out.println("Card to play: "+move.toPrettyString());
+        if (boardState.isLegal((SaboteurMove)move)) {
+        		return move; 
+        } else {
+	        	move = new SaboteurMove((new SaboteurDrop()), MyTools.dropCard(cards, knowNugget), 0, boardState.getTurnPlayer());
+	    		return move;
+        }
+        
+        /*
         for(int i=0; i<cards.size(); i++) {
         		if (cards.get(i) instanceof SaboteurTile) {
         			SaboteurTile tile = (SaboteurTile)cards.get(i);
@@ -138,28 +172,6 @@ public class StudentPlayer extends SaboteurPlayer {
         			}
         		}
         }
-        
-        // idk if playerId is right
-        // drop if could not find card
-        if (bestCard == null) {
-        		Move move = new SaboteurMove((new SaboteurDrop()), MyTools.dropCard(cards, knowNugget), 0, boardState.getTurnPlayer());
-        		return move;
-        } else if (bestCard instanceof SaboteurTile) {
-        		System.out.println("tile: "+((SaboteurTile)bestCard).getIdx());
-        		System.out.println("position: ("+bestCoords[0]+","+bestCoords[1]+")");
-        }
-        
-        Move move = new SaboteurMove(bestCard, bestCoords[1], bestCoords[0], boardState.getTurnPlayer());
-        System.out.println(move.toPrettyString());
-        if (boardState.isLegal((SaboteurMove)move)) {
-        		return move; 
-        } else {
-	        	move = new SaboteurMove((new SaboteurDrop()), MyTools.dropCard(cards, knowNugget), 0, boardState.getTurnPlayer());
-	    		return move;
-        }
-        
-
-        // Return your move to be processed by the server.
-        //return myMove;
+        */
     }
 }

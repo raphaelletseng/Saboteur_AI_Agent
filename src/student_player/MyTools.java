@@ -23,7 +23,7 @@ public class MyTools {
     			if (knowNugget == 0) {
     				return -100;
     			} else {
-    				return 100;
+    				return 101; // not worth playing a map card if we know where the nugget is
     			}
     		} else if (card instanceof SaboteurMalus) {
     			return -90;
