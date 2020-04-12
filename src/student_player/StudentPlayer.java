@@ -31,7 +31,6 @@ public class StudentPlayer extends SaboteurPlayer {
      * make decisions.
      */
     public Move chooseMove(SaboteurBoardState boardState) {
-    	
         ArrayList<SaboteurCard> cards = boardState.getCurrentPlayerCards();
         for(int i=0; i<cards.size(); i++) {
         		System.out.println(cards.get(i).getName());
