@@ -109,9 +109,6 @@ public class StudentPlayer extends SaboteurPlayer {
 	        					} else {
 	        						bestCoords[1] = nuggetPos[1];
 	        					}
-        					} else {
-        						System.out.println("nugget mistake!");
-        						bestCard = null;
         					}
         				} else { // SaboteurMalus, SaboteurBonus, SaboteurDestroy
         					bestCoords[0] = 0;

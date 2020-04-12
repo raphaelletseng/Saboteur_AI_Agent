@@ -47,7 +47,7 @@ public class MyTools {
     		int nuggetXPos = nugget[1];
     		int tileYPos = pos[0];
     		int tileXPos = pos[1];
-    		int yDistance = nuggetYPos - tileYPos;
+    		int yDistance = Math.abs(nuggetYPos - tileYPos);
     		int xDistance = nuggetXPos - tileXPos;
     		String idx = tile.getIdx();
     		

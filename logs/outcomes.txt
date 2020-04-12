@@ -33,3 +33,8 @@
 83,xxxxxxxxx,RandomPlayer,0,xxxxxxxxx,27,game00083.log,
 84,xxxxxxxxx,RandomPlayer,GAMEOVER DRAW,NOBODY,56,game00084.log,
 87,xxxxxxxxx,Human,0,xxxxxxxxx,19,game00087.log,
+88,xxxxxxxxx,RandomPlayer,GAMEOVER DRAW,NOBODY,56,game00088.log,
+89,xxxxxxxxx,RandomPlayer,GAMEOVER DRAW,NOBODY,56,game00089.log,
+90,xxxxxxxxx,RandomPlayer,1,RandomPlayer,44,game00090.log,
+92,xxxxxxxxx,Human,0,xxxxxxxxx,23,game00092.log,
+93,xxxxxxxxx,Human,0,xxxxxxxxx,23,game00093.log,
