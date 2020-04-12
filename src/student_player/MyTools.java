@@ -3,8 +3,10 @@ package student_player;
 import java.util.ArrayList;
 
 import Saboteur.SaboteurBoardState;
+import Saboteur.cardClasses.SaboteurBonus;
 import Saboteur.cardClasses.SaboteurCard;
 import Saboteur.cardClasses.SaboteurDestroy;
+import Saboteur.cardClasses.SaboteurMalus;
 import Saboteur.cardClasses.SaboteurMap;
 import Saboteur.cardClasses.SaboteurTile;
 
@@ -12,6 +14,30 @@ public class MyTools {
     public static double getSomething() {
         return Math.random();
     }
+    
+    /*
+     * heuristic function for non-tile SaboteurCards
+     */
+    public static int cardHeuristic(SaboteurCard card, int knowNugget, int nbMalus) {
+    		if (card instanceof SaboteurMap) {
+    			if (knowNugget == 0) {
+    				return -100;
+    			} else {
+    				return 100;
+    			}
+    		} else if (card instanceof SaboteurMalus) {
+    			return -90;
+    		} else if (card instanceof SaboteurBonus) {
+    			if (nbMalus > 0) { // malus played against us
+    				return -100;
+    			} else {
+    				return 100;
+    			}
+    		} else { // SaboteurDestroy
+    			return 100;
+    		}
+    }
+    
     /* 
      * the heuristic function for tiles
      * returns the number of moves to get to the nugget given a tile, its position, and our estimate of where the nugget is

@@ -394,7 +394,10 @@ public class SaboteurBoardState extends BoardState {
         //verify left side:
         if(pos[1]>0) {
             SaboteurTile neighborCard = this.board[pos[0]][pos[1] - 1];
-            if (neighborCard == null) numberOfEmptyAround += 1;
+            if (neighborCard == null) {
+            		numberOfEmptyAround += 1;
+            		System.out.println("left card empty");
+            }
             else if(objHiddenList.contains(neighborCard)) requiredEmptyAround -= 1;
             else {
                 int[][] neighborPath = neighborCard.getPath();
@@ -408,7 +411,10 @@ public class SaboteurBoardState extends BoardState {
         //verify right side
         if(pos[1]<BOARD_SIZE-1) {
             SaboteurTile neighborCard = this.board[pos[0]][pos[1] + 1];
-            if (neighborCard == null) numberOfEmptyAround += 1;
+            if (neighborCard == null) {
+            		numberOfEmptyAround += 1;
+            		System.out.println("right card empty");
+            }
             else if(objHiddenList.contains(neighborCard)) requiredEmptyAround -= 1;
             else {
                 int[][] neighborPath = neighborCard.getPath();
@@ -441,7 +447,10 @@ public class SaboteurBoardState extends BoardState {
         //verify bottom side:
         if(pos[0]<BOARD_SIZE-1) {
             SaboteurTile neighborCard = this.board[pos[0]+1][pos[1]];
-            if (neighborCard == null) numberOfEmptyAround += 1;
+            if (neighborCard == null) {
+            		numberOfEmptyAround += 1;
+            		System.out.println("bottom card empty");
+            }
             else if(objHiddenList.contains(neighborCard)) requiredEmptyAround -= 1;
             else {
                 int[][] neighborPath = neighborCard.getPath();

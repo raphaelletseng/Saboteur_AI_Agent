@@ -5,6 +5,7 @@ import boardgame.Move;
 import Saboteur.SaboteurPlayer;
 import Saboteur.cardClasses.SaboteurCard;
 import Saboteur.cardClasses.SaboteurDrop;
+import Saboteur.cardClasses.SaboteurMap;
 import Saboteur.cardClasses.SaboteurTile;
 
 import java.util.ArrayList;
@@ -30,27 +31,62 @@ public class StudentPlayer extends SaboteurPlayer {
      * make decisions.
      */
     public Move chooseMove(SaboteurBoardState boardState) {
-        // You probably will make separate functions in MyTools.
-        // For example, maybe you'll need to load some pre-processed best opening
-        // strategies...
-        //MyTools.getSomething();
+    	
         ArrayList<SaboteurCard> cards = boardState.getCurrentPlayerCards();
-
-        // Is random the best you can do?
-        //Move myMove = boardState.getRandomMove();
         
-        // after pruning
-        // find best move with tile cards
+        // prep variables
         int[] nugget = MyTools.nuggetAverage(boardState);
         int[] nuggetPos = new int[2];
         nuggetPos[0] = nugget[0];
         nuggetPos[1] = nugget[1];
         int knowNugget = nugget[2];
-        System.out.println("nugget average: (y,x) = ("+nuggetPos[0]+","+nuggetPos[1]+")");
+        int nbMalus = boardState.getNbMalus(boardState.getTurnPlayer());
         
-        int bestHeuristic = 100; // used to find best position among all tiles in our hand
+        int bestHeuristic = 100; // used to find best move among all possible moves
         int[] bestCoords = new int[2]; // (y,x)
         SaboteurCard bestCard = null;
+        
+        // a tree to find best card to play
+        // the branches are the cards in our hand
+        // heuristic function returns value of playing a card (in a certain position)
+        // choose card with lowest value
+        for(int i=0; i<cards.size(); i++) {
+        		SaboteurCard tempCard = cards.get(i);
+        		int temp;
+        		// tile heuristic depends on the distance to where we think the nugget is
+        		if (tempCard instanceof SaboteurTile) {
+        			ArrayList<int []> positions = boardState.possiblePositions((SaboteurTile)tempCard);
+        			for(int j=0; j<positions.size(); j++) {
+        				temp = MyTools.movesToGoal((SaboteurTile)bestCard, positions.get(j), nuggetPos);
+        				if (temp < bestHeuristic) {
+        					bestHeuristic = temp;
+        					bestCard = tempCard;
+        					bestCoords[0] = positions.get(j)[0];
+        					bestCoords[1] = positions.get(j)[1];
+        				}
+        			}
+        		// card heuristic depends on if we know where the nugget is and if we have a malus played against us
+        		} else {
+        			temp = MyTools.cardHeuristic(tempCard, knowNugget, nbMalus);
+        			if (temp < bestHeuristic) {
+        				bestHeuristic = temp;
+        				bestCard = tempCard;
+        				if (tempCard instanceof SaboteurMap) {
+        					bestCoords[0] = nuggetPos[0];
+        					if (nuggetPos[1] == 5) {
+        						bestCoords[1] = 5;
+        					} else if (nuggetPos[1] == 4) {
+        						bestCoords[1] = 3;
+        					} else {
+        						bestCoords[1] = 7;
+        					}
+        				} else { // SaboteurMalus, SaboteurBonus, SaboteurDestroy
+        					bestCoords[0] = 0;
+        					bestCoords[1] = 0;
+        				}
+        			}
+        		}
+        }
         
         for(int i=0; i<cards.size(); i++) {
         		if (cards.get(i) instanceof SaboteurTile) {
