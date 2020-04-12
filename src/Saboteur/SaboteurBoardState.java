@@ -471,7 +471,7 @@ public class SaboteurBoardState extends BoardState {
                     for (int m = 0; m < 4; m++) {
                         if (0 <= i+moves[m][0] && i+moves[m][0] < BOARD_SIZE && 0 <= j+moves[m][1] && j+moves[m][1] < BOARD_SIZE) {
                             if (this.verifyLegit(card.getPath(), new int[]{i + moves[m][0], j + moves[m][1]} )){
-                                possiblePos.add(new int[]{i + moves[m][0], j +moves[m][1]});
+                                possiblePos.add(new int[]{i + moves[m][0], j +moves[m][1]}); // y,x
                             }
                         }
                     }

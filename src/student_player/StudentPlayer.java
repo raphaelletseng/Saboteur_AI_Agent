@@ -40,10 +40,12 @@ public class StudentPlayer extends SaboteurPlayer {
         // prep variables
         int[] nugget = MyTools.nuggetAverage(boardState);
         int[] nuggetPos = new int[2];
-        nuggetPos[0] = nugget[0];
-        nuggetPos[1] = nugget[1];
+        nuggetPos[0] = nugget[0]; // y
+        nuggetPos[1] = nugget[1]; // x
         int knowNugget = nugget[2];
         int nbMalus = boardState.getNbMalus(boardState.getTurnPlayer());
+        System.out.println("knowNugget? "+knowNugget);
+        System.out.println("nuggetPos: "+nuggetPos[0]+", "+nuggetPos[1]);
         
         int bestHeuristic = 100; // used to find best move among all possible moves
         int[] bestCoords = new int[2]; // (y,x)
@@ -69,10 +71,10 @@ public class StudentPlayer extends SaboteurPlayer {
 	        					bestCoords[0] = positions.get(j)[0];
 	        					bestCoords[1] = positions.get(j)[1];
 	        					System.out.println("Best move legal.");
-        					} /*else {
+        					} else {
         						System.out.println("bestMove not legal, j="+j);
         					}
-        					if (boardState.verifyLegit(((SaboteurTile)tempCard).getPath(), new int[] {positions.get(j)[0],positions.get(j)[1]})) {
+        					/*if (boardState.verifyLegit(((SaboteurTile)tempCard).getPath(), new int[] {positions.get(j)[0],positions.get(j)[1]})) {
         						System.out.println("bestMove legit, j="+j);
         					}*/
         				}
@@ -87,10 +89,10 @@ public class StudentPlayer extends SaboteurPlayer {
 	            					bestCoords[0] = positions.get(j)[0];
 	            					bestCoords[1] = positions.get(j)[1];
 	            					System.out.println("Best move legal.");
-            					} /*else {
+            					} else {
             						System.out.println("bestMove not legal, j=."+j);
             					}
-            					if (boardState.verifyLegit(((SaboteurTile)tempCard).getFlipped().getPath(), new int[] {positions.get(j)[0],positions.get(j)[1]})) {
+            					/*if (boardState.verifyLegit(((SaboteurTile)tempCard).getFlipped().getPath(), new int[] {positions.get(j)[0],positions.get(j)[1]})) {
             						System.out.println("bestMove legit, j="+j);
             					}*/
             				}

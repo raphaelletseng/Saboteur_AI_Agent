@@ -51,26 +51,30 @@ public class MyTools {
     		int xDistance = nuggetXPos - tileXPos;
     		String idx = tile.getIdx();
     		
+    		// continuous cards with exit at bottom
     		if (idx.equals("0") || idx.equals("5") || idx.equals("6") || idx.equals("6f") || idx.equals("7f") || idx.equals("8") || idx.equals("9")) {
     			return yDistance + xDistance - 1;
+    		// continuous cards with exit at both side
     		} else if (idx.equals("9f") || idx.equals("10")) {
     			if (xDistance != 0) {
     				return yDistance + xDistance - 1;
     			} else {
     				return yDistance + xDistance + 1;
     			}
+    		// continuous cards with exit at only one side
     		} else if (idx.equals("5f")) {
     			if (xDistance >= 0) {
     				return yDistance + xDistance + 1;
     			} else {
-    				return yDistance + xDistance - 1;
+    				return yDistance - xDistance - 1;
     			}
     		} else if (idx.equals("7")) {
     			if (xDistance <= 0) {
-    				return yDistance + xDistance + 1;
+    				return yDistance - xDistance + 1;
     			} else {
     				return yDistance + xDistance - 1;
     			}
+    		// discontinuous cards
     		} else {
     			return 100 - (yDistance + xDistance);
     		}
