@@ -87,12 +87,12 @@ public class MyTools {
     		SaboteurTile[][] tileBoard = boardState.getHiddenBoard();
     		String tile1 = tileBoard[12][3].getIdx();
     		String tile2 = tileBoard[12][5].getIdx();
-    		String tile3 = tileBoard[12][3].getIdx();
+    		String tile3 = tileBoard[12][7].getIdx();
     		
     		if (tile1.equals("nugget")) {
     			return new int[] {12,3,1};
     		} else if (tile2.equals("nugget")) {
-    			return new int[] {12,5,1};
+    			return new int[] {12,5,1};		
     		} else if (tile3.equals("nugget")) {
     			return new int[] {12,7,1};
     		} else if (tile1.equals("hidden1")) {

@@ -61,35 +61,38 @@ public class StudentPlayer extends SaboteurPlayer {
         			ArrayList<int []> positions = boardState.possiblePositions((SaboteurTile)tempCard);
         			for(int j=0; j<positions.size(); j++) {
         				temp = MyTools.movesToGoal((SaboteurTile)tempCard, positions.get(j), nuggetPos);
+        				System.out.println("temp at j="+j+": "+temp);
         				if (temp < bestHeuristic) {
-        					if (boardState.isLegal(new SaboteurMove(tempCard, positions.get(j)[1], positions.get(j)[0], boardState.getTurnPlayer()))) {
+        					if (boardState.isLegal(new SaboteurMove(tempCard, positions.get(j)[0], positions.get(j)[1], boardState.getTurnPlayer()))) {
 	        					bestHeuristic = temp;
 	        					bestCard = tempCard;
 	        					bestCoords[0] = positions.get(j)[0];
 	        					bestCoords[1] = positions.get(j)[1];
-        					} else {
+	        					System.out.println("Best move legal.");
+        					} /*else {
         						System.out.println("bestMove not legal, j="+j);
         					}
         					if (boardState.verifyLegit(((SaboteurTile)tempCard).getPath(), new int[] {positions.get(j)[0],positions.get(j)[1]})) {
         						System.out.println("bestMove legit, j="+j);
-        					}
+        					}*/
         				}
         			}
         			if (SaboteurTile.canBeFlipped(((SaboteurTile)tempCard).getIdx())) {
         				for(int j=0; j<positions.size(); j++) {
             				temp = MyTools.movesToGoal(((SaboteurTile)tempCard).getFlipped(), positions.get(j), nuggetPos);
             				if (temp < bestHeuristic) {
-            					if (boardState.isLegal(new SaboteurMove(((SaboteurTile)tempCard).getFlipped(), positions.get(j)[1], positions.get(j)[0], boardState.getTurnPlayer()))) {
+            					if (boardState.isLegal(new SaboteurMove(((SaboteurTile)tempCard).getFlipped(), positions.get(j)[0], positions.get(j)[1], boardState.getTurnPlayer()))) {
 	            					bestHeuristic = temp;
 	            					bestCard = ((SaboteurTile)tempCard).getFlipped();
 	            					bestCoords[0] = positions.get(j)[0];
 	            					bestCoords[1] = positions.get(j)[1];
-            					} else {
+	            					System.out.println("Best move legal.");
+            					} /*else {
             						System.out.println("bestMove not legal, j=."+j);
             					}
             					if (boardState.verifyLegit(((SaboteurTile)tempCard).getFlipped().getPath(), new int[] {positions.get(j)[0],positions.get(j)[1]})) {
             						System.out.println("bestMove legit, j="+j);
-            					}
+            					}*/
             				}
             			}
         			}
@@ -118,7 +121,7 @@ public class StudentPlayer extends SaboteurPlayer {
         			}
         		}
         }
-        
+        System.out.println("bestHeuristic: "+bestHeuristic);
         Move move;
         // have to drop a card if could not find a move
         if (bestCard == null) {
@@ -130,7 +133,7 @@ public class StudentPlayer extends SaboteurPlayer {
         		System.out.println("position: ("+bestCoords[0]+","+bestCoords[1]+")");
         }
         
-        move = new SaboteurMove(bestCard, bestCoords[1], bestCoords[0], boardState.getTurnPlayer());
+        move = new SaboteurMove(bestCard, bestCoords[0], bestCoords[1], boardState.getTurnPlayer());
         System.out.println("Card to play: "+move.toPrettyString());
         if (boardState.isLegal((SaboteurMove)move)) {
         		return move; 

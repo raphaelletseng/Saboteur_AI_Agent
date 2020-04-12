@@ -23,3 +23,6 @@
 58,RandomPlayer,RandomPlayer,GAMEOVER DRAW,NOBODY,56,game00058.log,
 59,RandomPlayer,RandomPlayer,GAMEOVER DRAW,NOBODY,56,game00059.log,
 60,RandomPlayer,RandomPlayer,GAMEOVER DRAW,NOBODY,56,game00060.log,
+71,RandomPlayer,RandomPlayer,GAMEOVER DRAW,NOBODY,56,game00071.log,
+72,xxxxxxxxx,RandomPlayer,GAMEOVER DRAW,NOBODY,56,game00072.log,
+73,xxxxxxxxx,RandomPlayer,GAMEOVER DRAW,NOBODY,56,game00073.log,
