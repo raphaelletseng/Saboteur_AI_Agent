@@ -28,3 +28,8 @@
 73,xxxxxxxxx,RandomPlayer,GAMEOVER DRAW,NOBODY,56,game00073.log,
 74,xxxxxxxxx,RandomPlayer,GAMEOVER DRAW,NOBODY,56,game00074.log,
 80,xxxxxxxxx,Human,0,xxxxxxxxx,25,game00080.log,
+81,xxxxxxxxx,RandomPlayer,GAMEOVER DRAW,NOBODY,56,game00081.log,
+82,xxxxxxxxx,RandomPlayer,GAMEOVER DRAW,NOBODY,56,game00082.log,
+83,xxxxxxxxx,RandomPlayer,0,xxxxxxxxx,27,game00083.log,
+84,xxxxxxxxx,RandomPlayer,GAMEOVER DRAW,NOBODY,56,game00084.log,
+87,xxxxxxxxx,Human,0,xxxxxxxxx,19,game00087.log,

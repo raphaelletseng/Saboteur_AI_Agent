@@ -74,9 +74,6 @@ public class StudentPlayer extends SaboteurPlayer {
         					} else {
         						System.out.println("bestMove not legal, j="+j);
         					}
-        					/*if (boardState.verifyLegit(((SaboteurTile)tempCard).getPath(), new int[] {positions.get(j)[0],positions.get(j)[1]})) {
-        						System.out.println("bestMove legit, j="+j);
-        					}*/
         				}
         			}
         			if (SaboteurTile.canBeFlipped(((SaboteurTile)tempCard).getIdx())) {
@@ -92,9 +89,6 @@ public class StudentPlayer extends SaboteurPlayer {
             					} else {
             						System.out.println("bestMove not legal, j=."+j);
             					}
-            					/*if (boardState.verifyLegit(((SaboteurTile)tempCard).getFlipped().getPath(), new int[] {positions.get(j)[0],positions.get(j)[1]})) {
-            						System.out.println("bestMove legit, j="+j);
-            					}*/
             				}
             			}
         			}
@@ -106,15 +100,18 @@ public class StudentPlayer extends SaboteurPlayer {
         				bestHeuristic = temp;
         				bestCard = tempCard;
         				if (tempCard instanceof SaboteurMap) { 
-        					// this is only worth playing if knowNugget = 0
-        					// we will guess the outside hidden positions first
-        					bestCoords[0] = nuggetPos[0];
-        					if (nuggetPos[1] == 5) {
-        						bestCoords[1] = 5;
-        					} else if (nuggetPos[1] == 4) {
-        						bestCoords[1] = 3;
-        					} else { // nuggetPosX = 6
-        						bestCoords[1] = 7;
+        					if (knowNugget == 0) {
+	        					bestCoords[0] = nuggetPos[0]; // y
+	        					if (nuggetPos[1] == 4) {
+	        						bestCoords[1] = 3;
+	        					} else if (nuggetPos[1] == 6){ 
+	        						bestCoords[1] = 7;
+	        					} else {
+	        						bestCoords[1] = nuggetPos[1];
+	        					}
+        					} else {
+        						System.out.println("nugget mistake!");
+        						bestCard = null;
         					}
         				} else { // SaboteurMalus, SaboteurBonus, SaboteurDestroy
         					bestCoords[0] = 0;

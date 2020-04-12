@@ -93,12 +93,14 @@ public class MyTools {
     		String tile2 = tileBoard[12][5].getIdx();
     		String tile3 = tileBoard[12][7].getIdx();
     		
+    		// we know where the nugget is
     		if (tile1.equals("nugget")) {
     			return new int[] {12,3,1};
     		} else if (tile2.equals("nugget")) {
     			return new int[] {12,5,1};		
     		} else if (tile3.equals("nugget")) {
     			return new int[] {12,7,1};
+    		// we know where the nugget isn't
     		} else if (tile1.equals("hidden1")) {
     			if (tile2.equals("hidden2")) {
     				return new int[] {12,7,1};
@@ -117,8 +119,11 @@ public class MyTools {
     			}
     		} else if ((tile2.equals("hidden1") || tile2.equals("hidden2")) && !tile3.equals("8")) {
     			return new int[] {12,3,1};
+    		} else if (tile2.equals("hidden1") || tile2.equals("hidden2")){
+    			return new int[] {12, 3, 0};
     		} else if (tile3.equals("hidden1") || tile3.equals("hidden2")) {
     			return new int[] {12,4,0};
+    		// we know nothing
     		} else {
     			return new int[] {12,5,0};
     		}
