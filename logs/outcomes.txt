@@ -38,3 +38,6 @@
 90,xxxxxxxxx,RandomPlayer,1,RandomPlayer,44,game00090.log,
 92,xxxxxxxxx,Human,0,xxxxxxxxx,23,game00092.log,
 93,xxxxxxxxx,Human,0,xxxxxxxxx,23,game00093.log,
+94,xxxxxxxxx,RandomPlayer,0,xxxxxxxxx,41,game00094.log,
+95,xxxxxxxxx,RandomPlayer,GAMEOVER DRAW,NOBODY,56,game00095.log,
+96,xxxxxxxxx,RandomPlayer,0,xxxxxxxxx,39,game00096.log,
