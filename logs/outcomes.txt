@@ -11,3 +11,4 @@
 19,xxxxxxxxx,Human,GAMEOVER USER CANCEL UNDECIDED,NOBODY,3,game00019.log,USER CANCEL
 23,xxxxxxxxx,xxxxxxxxx,GAMEOVER DRAW,NOBODY,56,game00023.log,
 31,xxxxxxxxx,Human,GAMEOVER USER CANCEL UNDECIDED,NOBODY,3,game00031.log,USER CANCEL
+36,xxxxxxxxx,Human,1,Human,30,game00036.log,

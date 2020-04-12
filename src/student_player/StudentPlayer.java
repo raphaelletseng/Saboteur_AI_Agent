@@ -57,7 +57,7 @@ public class StudentPlayer extends SaboteurPlayer {
         		if (tempCard instanceof SaboteurTile) {
         			ArrayList<int []> positions = boardState.possiblePositions((SaboteurTile)tempCard);
         			for(int j=0; j<positions.size(); j++) {
-        				temp = MyTools.movesToGoal((SaboteurTile)bestCard, positions.get(j), nuggetPos);
+        				temp = MyTools.movesToGoal((SaboteurTile)tempCard, positions.get(j), nuggetPos);
         				if (temp < bestHeuristic) {
         					bestHeuristic = temp;
         					bestCard = tempCard;
@@ -105,6 +105,7 @@ public class StudentPlayer extends SaboteurPlayer {
         Move move;
         // have to drop a card if could not find a move
         if (bestCard == null) {
+        		System.out.println("Dropping card 1.");
         		move = new SaboteurMove((new SaboteurDrop()), MyTools.dropCard(cards, knowNugget), 0, boardState.getTurnPlayer());
         		return move;
         } else {
@@ -117,6 +118,7 @@ public class StudentPlayer extends SaboteurPlayer {
         if (boardState.isLegal((SaboteurMove)move)) {
         		return move; 
         } else {
+       		System.out.println("Dropping card 2.");
 	        	move = new SaboteurMove((new SaboteurDrop()), MyTools.dropCard(cards, knowNugget), 0, boardState.getTurnPlayer());
 	    		return move;
         }

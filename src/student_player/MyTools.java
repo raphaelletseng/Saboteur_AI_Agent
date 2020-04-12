@@ -50,6 +50,7 @@ public class MyTools {
     		int yDistance = nuggetYPos - tileYPos;
     		int xDistance = nuggetXPos - tileXPos;
     		String idx = tile.getIdx();
+    		
     		if (idx.equals("0") || idx.equals("5") || idx.equals("6") || idx.equals("6f") || idx.equals("7f") || idx.equals("8") || idx.equals("9")) {
     			return yDistance + xDistance - 1;
     		} else if (idx.equals("9f") || idx.equals("10")) {
