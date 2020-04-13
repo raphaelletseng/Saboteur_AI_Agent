@@ -80,6 +80,23 @@ public class MyTools {
     		}
     }
     
+    public static int NuggetKnown(SaboteurBoardState boardState) {
+    	SaboteurTile[][] tileBoard = boardState.getHiddenBoard();
+		String tile1 = tileBoard[12][3].getIdx();
+		String tile2 = tileBoard[12][5].getIdx();
+		String tile3 = tileBoard[12][7].getIdx();
+		if (tile1.equals("nugget")) {
+			return 3;
+		}else if (tile2.equals("nugget")) {
+			return 5;
+		}else if (tile3.equals("nugget")) {
+			return 7;
+		}else {
+			return 0;
+		}
+    }
+    
+    
     /*
      * returns the x,y - coordinate of where we think the nugget is based on what hidden objects we have revealed
      * if nugget is known, returns location of the nugget
